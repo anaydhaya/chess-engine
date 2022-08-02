@@ -1,0 +1,1 @@
+C:\Users\anayd\Documents\GitHub\chess-engine\chess-engine\chess-engine\x64\Debug\chess-engine.vcxproj.CopyComplete

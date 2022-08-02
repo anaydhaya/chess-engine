@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="test.cpp">
+      <Filter>Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="adeng.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Testing">
+      <UniqueIdentifier>{ec55a1d2-a96e-4d45-bc79-e94e73c3f048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{63a745f9-ecd1-4b6b-8310-8fff946149fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Board">
+      <UniqueIdentifier>{68d322f3-fa2d-4c5d-8339-2a8b34872fa1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="adeng.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Board</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
