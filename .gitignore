@@ -1,0 +1,13 @@
+
+*.opendb
+*.db-wal
+*.db-shm
+*.db
+*.vsidx
+*.vcxproj
+*.ipch
+*.db
+*.vsidx
+*.vsidx
+*.testlog
+*.db
