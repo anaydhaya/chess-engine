@@ -25,9 +25,8 @@
 
 #define arr_i8 std::array<int, 8>
 
-// 32 bit representation of a rank comprising 8 files. Cant use char with : 3 for a total of 24 (3 bytes) because
-// then some of the values would span multiple bytes so it uses 4 bytes total anyway. If we are locked to 4 byted 
-// may aswell use : 4 and short type
+// 32 bit representation of a rank comprising 8 files. We are locked to a min size of 4 Bytes whether we use 
+// unsigned char : 3 or unsigned short : 4 so might as well make each piece of data a neat half byte
 struct Rank
 {
 
@@ -83,8 +82,6 @@ public:
 	}
 };
 
-// A board is 8 ranks. It's unfortunate that the indexing will make the access less intuitive
-// so ranks[0].a is actually a1, ranks[7].h is h8 - somethat that can be done? worth it?
 struct Board
 {
 	Rank ranks[8];
