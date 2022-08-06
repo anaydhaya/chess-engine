@@ -1,6 +1,6 @@
 #pragma once
 
-#include <array>
+#include "Rank.h"
 
 #pragma region Description
 // The board is simply the positions of the pieces. It contains no history about the game 
@@ -22,65 +22,6 @@
 // 5 = queen
 // 6 = king
 #pragma endregion
-
-#define arr_i8 std::array<int, 8>
-
-// 32 bit representation of a rank comprising 8 files. We are locked to a min size of 4 Bytes whether we use 
-// unsigned char : 3 or unsigned short : 4 so might as well make each piece of data a neat half byte
-struct Rank
-{
-
-private:
-	unsigned short a : 4;
-	unsigned short b : 4;
-	unsigned short c : 4;
-	unsigned short d : 4;
-	unsigned short e : 4;
-	unsigned short f : 4;
-	unsigned short g : 4;
-	unsigned short h : 4;
-
-public:
-
-	Rank()
-	{
-		arr_i8 vals = { 0 };
-		SetFileValsFromArray(vals);
-	}
-
-	Rank(arr_i8 r)
-	{
-		SetFileValsFromArray(r);
-	}
-
-	Rank(const Rank& r)
-	{
-		arr_i8 vals = r.GetFileValsAsArray();
-		SetFileValsFromArray(vals);
-	}
-
-	bool operator==(const Rank& rhs) const
-	{
-		return memcmp(this, &rhs, sizeof(Rank)) == 0;
-	}
-
-	arr_i8 GetFileValsAsArray() const
-	{
-		return { a, b, c, d, e, f, g, h };
-	}
-
-	void SetFileValsFromArray(const arr_i8& vals)
-	{
-		a = vals[0];
-		b = vals[1];
-		c = vals[2];
-		d = vals[3];
-		e = vals[4];
-		f = vals[5];
-		g = vals[6];
-		h = vals[7];
-	}
-};
 
 struct Board
 {

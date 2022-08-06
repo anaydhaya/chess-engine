@@ -1,0 +1,21 @@
+I think the tree structure needs to be very quickly iterable which isnt quite how i see a linked list. I think we can get around this though by having each root node, rather thank pointing at all children, it points at the beginning of the block of memory containing those children and an integer saying how many there are. This would mean you can only add children in bulk because its the only way i think to ensure the items are contiguous in memory.
+
+So likely something that looks like
+
+Node
+{
+	int childCount
+	Node* children
+	Node* parent
+	Board board
+}
+
+which means the tree looks something like
+
+ Root (Node)							---> Layer 1 (White move for example
+|____       \_________________________________________
+|    |	     |    |    |    |    |    |    |    |    |
+Node Node    Node Node Node Node Node Node Node Node Node	---> Layer 2 (Black move)
+
+Each layer is completely contiguous in memory from the root so you can quickly and easily iterate over an entire layer at once. Each Node hold a reference back to the root it came from (im not sure this will be needed to be honest but i think its good to have anyway)
+The root points at the first Node on the far left and because it has 11 children of known size, it can iterate over all 11 children

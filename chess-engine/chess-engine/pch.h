@@ -5,7 +5,7 @@
 #pragma once
 
 #include "gtest/gtest.h"
-#include "Board.h"
+#include "Game.h"
 
 int main(int argc, char* argv[])
 {
