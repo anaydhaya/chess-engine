@@ -31,7 +31,6 @@
 
 class Engine
 {
-	// The engine needs functions to generate a tree of Boards
 
 	// Function to generate a tree of boards of all possible moves to N depth
 
@@ -41,7 +40,7 @@ class Engine
 
 	// Function to prune 'terrible' moves from the tree - may end up deferring this implementation to begin with
 
-	// Function to score positions (Boards)
+	// Function to score positions
 
 	// Function to get a move from two boards - low impact
 	std::string GetMove(const Board& before, const Board& after);

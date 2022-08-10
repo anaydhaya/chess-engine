@@ -16,6 +16,8 @@
 // actual chess game hooks into. For that reason, this Game should just serve as a
 // remote proxy for the Game object that calls it - will need a function that can
 // construct a game from scratch then
+
+// Would need functions to take a generic FEN and PGN and produce a Game and Board
 #pragma endregion
 
 class Game
@@ -30,7 +32,15 @@ class Game
 		// Get diff between game.Board and board - this is the move (which can be a castle) - 
 		// This would be better as a function on two boards becuase otherwise we need to store 
 		// a move with each board. As a function we just need a board and the parent board in the tree
+		// This function will handle the changing of private data based on the new board and the previous game
+
 	}
+
+	// PGN Constructor?
+
+	// FEN Constructor?
+
+	// Copy Constructor
 
 	int MovesWithoutCaptureOrPawnMove() { return movesWithoutCaptureOrPawnMove; }
 	int RepeatCount() { return repeatCount; }
@@ -45,6 +55,7 @@ private:
 
 	int movesWithoutCaptureOrPawnMove = 0;
 	int repeatCount = 0;
+	int moveCounter = 0;
 
 	// By default both players can castle both ways
 	bool whiteCanShortCastle = true;

@@ -1,5 +1,15 @@
 #include "pch.h"
 
+#pragma region Thoughts
+// Unit tests for the Game representation. Should be in dependency order.
+// Im not that familiar with writing unit tests but it seems like making
+// things that inherently rely on others purely unit is basically impossible.
+// For example, you cant possible test a Game object without testing Board.
+// And if any error happens lower down in the dependency you expect to see errors
+// propagate? Not sure what the general process is then but ill try and 
+// get something that makes sense to me and brings value
+#pragma endregion
+
 // Definitions to make the code more readable
 #define EQ(val1, val2) EXPECT_EQ(val1, val2);
 
@@ -9,15 +19,21 @@ void TestRankByArray(const arr_i8& files, const arr_i8& vals)
 		EQ(files[i], vals[i]);
 }
 
+void TestRankByArray(const arr_b8 files, const arr_b8 vals)
+{
+	for (int i = 0; i < 8; i++)
+		EQ(files[i], vals[i]);
+}
+
 #pragma region Rank Tests
 
-TEST(RankTest, RankStructSize)
+TEST(RankTest, StructSize)
 {
 	Rank r;
 	EQ(sizeof(r), 4)
 }
 
-TEST(RankTest, RankDefaultConstructor)
+TEST(RankTest, DefaultConstructor)
 {
 	Rank r;
 
@@ -25,29 +41,24 @@ TEST(RankTest, RankDefaultConstructor)
 	TestRankByArray(r.GetFilesAsArray(), vals);
 }
 
-TEST(RankTest, RankCopyConstructor)
+TEST(RankTest, CopyConstructor)
 {
 	Rank r;
-	// auto vals = r.GetFileValsAsArray();
 	arr_i8 new_vals = { 0, 1, 2, 3, 4, 5, 6, 7 };
 	r.SetFilesFromArray(new_vals);
-
-	// Change values which we will test against
-	/*for (int i = 0; i < 8; i++)
-		vals[i] = new_vals[i];*/
 
 	Rank c(r);
 	TestRankByArray(c.GetFilesAsArray(), new_vals);
 }
 
-TEST(RankTest, RankArrayConstructor)
+TEST(RankTest, ArrayConstructor)
 {
 	arr_i8 vals = { 0, 1, 2, 3, 4, 5, 6, 7 };
 	Rank r(vals);
 	TestRankByArray(r.GetFilesAsArray(), vals);
 }
 
-TEST(RankTest, RankComparator)
+TEST(RankTest, Comparator)
 {
 	arr_i8 vals = { 0, 1, 2, 3, 4, 5, 6, 7 };
 	Rank r(vals);
@@ -59,7 +70,7 @@ TEST(RankTest, RankComparator)
 
 #pragma region Board Tests
 
-TEST(BoardTest, BoardDefault) 
+TEST(BoardTest, DefaultConstructor) 
 {
 
 	// [4 2 3 6 5 3 2 4] Black
@@ -86,18 +97,9 @@ TEST(BoardTest, BoardDefault)
 
 	for (int i = 0; i < 8; i++)
 		TestRankByArray(b.ranks[i].GetFilesAsArray(), vals[i]);
-
-	/*EQ(b.ranks[7].a, 4); EQ(b.ranks[7].b, 2); EQ(b.ranks[7].c, 3); EQ(b.ranks[7].d, 6); EQ(b.ranks[7].e, 5); EQ(b.ranks[7].f, 3); EQ(b.ranks[7].g, 2); EQ(b.ranks[7].h, 4);
-	EQ(b.ranks[6].a, 1); EQ(b.ranks[6].b, 1); EQ(b.ranks[6].c, 1); EQ(b.ranks[6].d, 1); EQ(b.ranks[6].e, 1); EQ(b.ranks[6].f, 1); EQ(b.ranks[6].g, 1); EQ(b.ranks[6].h, 1);
-	EQ(b.ranks[5].a, 0); EQ(b.ranks[5].b, 0); EQ(b.ranks[5].c, 0); EQ(b.ranks[5].d, 0); EQ(b.ranks[5].e, 0); EQ(b.ranks[5].f, 0); EQ(b.ranks[5].g, 0); EQ(b.ranks[5].h, 0);
-	EQ(b.ranks[4].a, 0); EQ(b.ranks[4].b, 0); EQ(b.ranks[4].c, 0); EQ(b.ranks[4].d, 0); EQ(b.ranks[4].e, 0); EQ(b.ranks[4].f, 0); EQ(b.ranks[4].g, 0); EQ(b.ranks[4].h, 0);
-	EQ(b.ranks[3].a, 0); EQ(b.ranks[3].b, 0); EQ(b.ranks[3].c, 0); EQ(b.ranks[3].d, 0); EQ(b.ranks[3].e, 0); EQ(b.ranks[3].f, 0); EQ(b.ranks[3].g, 0); EQ(b.ranks[3].h, 0);
-	EQ(b.ranks[2].a, 0); EQ(b.ranks[2].b, 0); EQ(b.ranks[2].c, 0); EQ(b.ranks[2].d, 0); EQ(b.ranks[2].e, 0); EQ(b.ranks[2].f, 0); EQ(b.ranks[2].g, 0); EQ(b.ranks[2].h, 0);
-	EQ(b.ranks[1].a, 1); EQ(b.ranks[1].b, 1); EQ(b.ranks[1].c, 1); EQ(b.ranks[1].d, 1); EQ(b.ranks[1].e, 1); EQ(b.ranks[1].f, 1); EQ(b.ranks[1].g, 1); EQ(b.ranks[1].h, 1);
-	EQ(b.ranks[0].a, 4); EQ(b.ranks[0].b, 2); EQ(b.ranks[0].c, 3); EQ(b.ranks[0].d, 5); EQ(b.ranks[0].e, 6); EQ(b.ranks[0].f, 3); EQ(b.ranks[0].g, 2); EQ(b.ranks[0].h, 4);*/
 }
 
-TEST(BoardTest, BoardCopyConstructor) 
+TEST(BoardTest, CopyConstructor) 
 {
 
 	// Does this even count as a test if it just uses the rank copy constructor? Is it a test in its own right?
@@ -112,15 +114,63 @@ TEST(BoardTest, BoardCopyConstructor)
 
 	for (int i = 0; i < 8; i++)
 		TestRankByArray(b.ranks[i].GetFilesAsArray(), vals[i]);
+}
 
-	/*EQ(copy.ranks[0].a, 0); EQ(copy.ranks[0].b, 0); EQ(copy.ranks[0].c, 0); EQ(copy.ranks[0].d, 0); EQ(copy.ranks[0].e, 0); EQ(copy.ranks[0].f, 0); EQ(copy.ranks[0].g, 0); EQ(copy.ranks[0].h, 0);
-	EQ(copy.ranks[1].a, 0); EQ(copy.ranks[1].b, 0); EQ(copy.ranks[1].c, 0); EQ(copy.ranks[1].d, 0); EQ(copy.ranks[1].e, 0); EQ(copy.ranks[1].f, 0); EQ(copy.ranks[1].g, 0); EQ(copy.ranks[1].h, 0);
-	EQ(copy.ranks[2].a, 0); EQ(copy.ranks[2].b, 0); EQ(copy.ranks[2].c, 0); EQ(copy.ranks[2].d, 0); EQ(copy.ranks[2].e, 0); EQ(copy.ranks[2].f, 0); EQ(copy.ranks[2].g, 0); EQ(copy.ranks[2].h, 0);
-	EQ(copy.ranks[3].a, 0); EQ(copy.ranks[3].b, 0); EQ(copy.ranks[3].c, 0); EQ(copy.ranks[3].d, 0); EQ(copy.ranks[3].e, 0); EQ(copy.ranks[3].f, 0); EQ(copy.ranks[3].g, 0); EQ(copy.ranks[3].h, 0);
-	EQ(copy.ranks[4].a, 0); EQ(copy.ranks[4].b, 0); EQ(copy.ranks[4].c, 0); EQ(copy.ranks[4].d, 0); EQ(copy.ranks[4].e, 0); EQ(copy.ranks[4].f, 0); EQ(copy.ranks[4].g, 0); EQ(copy.ranks[4].h, 0);
-	EQ(copy.ranks[5].a, 0); EQ(copy.ranks[5].b, 0); EQ(copy.ranks[5].c, 0); EQ(copy.ranks[5].d, 0); EQ(copy.ranks[5].e, 0); EQ(copy.ranks[5].f, 0); EQ(copy.ranks[5].g, 0); EQ(copy.ranks[5].h, 0);
-	EQ(copy.ranks[6].a, 0); EQ(copy.ranks[6].b, 0); EQ(copy.ranks[6].c, 0); EQ(copy.ranks[6].d, 0); EQ(copy.ranks[6].e, 0); EQ(copy.ranks[6].f, 0); EQ(copy.ranks[6].g, 0); EQ(copy.ranks[6].h, 0);
-	EQ(copy.ranks[7].a, 0); EQ(copy.ranks[7].b, 0); EQ(copy.ranks[7].c, 0); EQ(copy.ranks[7].d, 0); EQ(copy.ranks[7].e, 0); EQ(copy.ranks[7].f, 0); EQ(copy.ranks[7].g, 0); EQ(copy.ranks[7].h, 0);*/
+#pragma endregion
+
+#pragma region EnPassant Tests
+
+TEST(EnPassantTest, StructSize)
+{
+	EnPassant e;
+	EQ(sizeof(e), 1);
+}
+
+TEST(EnPassantTest, DefaultConstructor)
+{
+	EnPassant e;
+
+	arr_b8 vals = { 0 };
+	TestRankByArray(e.GetFilesAsArray(), vals);
+}
+
+TEST(EnPassantTest, CopyConstructor)
+{
+	EnPassant e;
+	arr_b8 new_vals = { 0, 1, 0, 1, 0, 1, 0, 1 };
+	e.SetFilesFromArray(new_vals);
+
+	EnPassant c(e);
+	TestRankByArray(c.GetFilesAsArray(), new_vals);
+}
+
+TEST(EnPassantTest, ArrayConstructor)
+{
+	arr_b8 vals = { 0, 1, 2, 3, 4, 5, 6, 7 };
+	EnPassant e(vals);
+	TestRankByArray(e.GetFilesAsArray(), vals);
+}
+
+TEST(EnPassantTest, Comparator)
+{
+	arr_b8 vals = { 0, 1, 2, 3, 4, 5, 6, 7 };
+	EnPassant e(vals);
+	EnPassant c(vals);
+	EXPECT_TRUE(e == c);
+}
+
+#pragma endregion
+
+#pragma region Game Tests
+
+TEST(GameTests, DefaultConstructor)
+{
+
+}
+
+TEST(GameTests, PermutationConstructor)
+{
+
 }
 
 #pragma endregion
